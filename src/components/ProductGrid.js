@@ -17,7 +17,7 @@ export default function ProductGrid({ products = [] }) {
   if (products.length === 0) {
     return (
       <p className="rounded-lg border border-dashed border-slate-300 bg-white p-8 text-center text-slate-600">
-        Todavia no hay productos cargados.
+        No bowls loaded yet.
       </p>
     );
   }
@@ -40,7 +40,7 @@ export default function ProductGrid({ products = [] }) {
               />
             ) : (
               <div className="flex h-full items-center justify-center px-6 text-center text-sm text-slate-500">
-                Sin imagen
+                No image
               </div>
             )}
           </div>
@@ -56,7 +56,7 @@ export default function ProductGrid({ products = [] }) {
             </div>
 
             <p className="mt-2 line-clamp-3 text-sm text-slate-600">
-              {product.description || "Sin descripcion"}
+              {product.description || "No description"}
             </p>
 
             {product.categories?.length ? (
@@ -82,7 +82,7 @@ export default function ProductGrid({ products = [] }) {
               </div>
             ) : null}
 
-            <p className="mt-4 text-sm text-slate-500">Stock: {product.stock}</p>
+            <p className="mt-4 text-sm text-slate-500">Available: {product.stock}</p>
           </div>
         </article>
       ))}

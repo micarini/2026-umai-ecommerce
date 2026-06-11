@@ -25,18 +25,18 @@ export async function createCategory(_previousState, formData) {
     await Category.create(getCategoryPayload(formData));
     revalidateCategoryViews();
 
-    return { ok: true, message: "Categoria creada." };
+    return { ok: true, message: "Category created." };
   } catch (error) {
     return {
       ok: false,
-      message: error.message || "Error al crear la categoria.",
+      message: error.message || "Error when creating the category.",
     };
   }
 }
 
 export async function updateCategory(id, _previousState, formData) {
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return { ok: false, message: "ID de categoria invalido." };
+    return { ok: false, message: "Invalid category ID." };
   }
 
   try {
@@ -52,22 +52,22 @@ export async function updateCategory(id, _previousState, formData) {
     );
 
     if (!category) {
-      return { ok: false, message: "Categoria no encontrada." };
+      return { ok: false, message: "Category not found." };
     }
 
     revalidateCategoryViews();
-    return { ok: true, message: "Categoria actualizada." };
+    return { ok: true, message: "Category updated." };
   } catch (error) {
     return {
       ok: false,
-      message: error.message || "Error al actualizar la categoria.",
+      message: error.message || "Error when updating the category.",
     };
   }
 }
 
 export async function deleteCategory(id) {
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return { ok: false, message: "ID de categoria invalido." };
+    return { ok: false, message: "Invalid category ID." };
   }
 
   try {
@@ -76,7 +76,7 @@ export async function deleteCategory(id) {
     const category = await Category.findByIdAndDelete(id);
 
     if (!category) {
-      return { ok: false, message: "Categoria no encontrada." };
+      return { ok: false, message: "Category not found." };
     }
 
     await Product.updateMany(
@@ -85,11 +85,11 @@ export async function deleteCategory(id) {
     );
 
     revalidateCategoryViews();
-    return { ok: true, message: "Categoria eliminada." };
+    return { ok: true, message: "Category deleted." };
   } catch (error) {
     return {
       ok: false,
-      message: error.message || "Error al eliminar la categoria.",
+      message: error.message || "Error when deleting the category.",
     };
   }
 }

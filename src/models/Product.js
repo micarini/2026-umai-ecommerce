@@ -34,6 +34,38 @@ const productSchema = new mongoose.Schema(
         ref: "Category",
       },
     ],
+    // Customization options for sushi bowls
+    customizations: [
+      {
+        name: {
+          type: String,
+          required: true,
+          // e.g., "Base", "Protein", "Vegetables", "Toppings"
+        },
+        description: {
+          type: String,
+          default: "",
+        },
+        required: {
+          type: Boolean,
+          default: true,
+        },
+        options: [
+          {
+            label: {
+              type: String,
+              required: true,
+              // e.g., "White Rice", "Brown Rice", "Salmon"
+            },
+            price: {
+              type: Number,
+              default: 0,
+              // Additional price for this option
+            },
+          },
+        ],
+      },
+    ],
   },
   {
     timestamps: true,

@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "CRUD de Productos",
-  description: "Ejemplo simple de ecommerce con Next.js y MongoDB",
+  title: "Sushi Bowl Shop",
+  description: "Build your perfect customizable sushi bowl. Fresh ingredients and unique combinations.",
 };
 
 export default function RootLayout({ children }) {

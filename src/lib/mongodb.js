@@ -1,11 +1,5 @@
 import mongoose from "mongoose";
 
-const MONGODB_URI = process.env.MONGODB_URI;
-
-if (!MONGODB_URI) {
-  throw new Error("Falta la variable MONGODB_URI en el archivo .env");
-}
-
 let cached = global.mongoose;
 
 if (!cached) {
@@ -13,6 +7,12 @@ if (!cached) {
 }
 
 export async function connectDB() {
+  const MONGODB_URI = process.env.MONGODB_URI;
+
+  if (!MONGODB_URI) {
+    throw new Error("Falta la variable MONGODB_URI en el archivo .env");
+  }
+
   if (cached.conn) {
     return cached.conn;
   }

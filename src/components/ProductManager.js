@@ -77,7 +77,7 @@ export default function ProductManager({
         refreshProducts();
       }
     } catch {
-      setMessage("Ocurrio un error al guardar el producto.");
+      setMessage("An error occurred while saving the bowl.");
     } finally {
       setIsSaving(false);
     }
@@ -95,14 +95,14 @@ export default function ProductManager({
         typeof category === "string" ? category : category._id
       ),
     });
-    setMessage("Editando producto.");
+    setMessage("Editing bowl.");
   }
 
   async function handleDelete(id) {
     const result = await deleteProduct(id);
 
     if (!result.ok) {
-      setMessage(result.message || "No se pudo eliminar el producto.");
+      setMessage(result.message || "Could not delete the bowl.");
       return;
     }
 
@@ -118,17 +118,17 @@ export default function ProductManager({
     <div className="grid gap-8 lg:grid-cols-[360px_1fr]">
       <section className="rounded-lg border border-black/10 bg-white p-6 shadow-sm">
         <h2 className="text-2xl font-semibold text-slate-900">
-          {editingId ? "Editar producto" : "Nuevo producto"}
+          {editingId ? "Edit Bowl" : "New Bowl"}
         </h2>
         <p className="mt-2 text-sm text-slate-600">
-          Formulario simple para probar los endpoints del CRUD.
+          Create and manage sushi bowl products.
         </p>
 
         <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
           <input
             className="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none"
             name="name"
-            placeholder="Nombre"
+            placeholder="Bowl name"
             value={form.name}
             onChange={handleChange}
             required
@@ -136,14 +136,14 @@ export default function ProductManager({
           <textarea
             className="min-h-28 w-full rounded-lg border border-slate-300 px-4 py-3 outline-none"
             name="description"
-            placeholder="Descripcion"
+            placeholder="Description"
             value={form.description}
             onChange={handleChange}
           />
           <input
             className="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none"
             name="price"
-            placeholder="Precio"
+            placeholder="Price"
             type="number"
             min="0"
             step="0.01"
@@ -154,7 +154,7 @@ export default function ProductManager({
           <input
             className="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none"
             name="stock"
-            placeholder="Stock"
+            placeholder="Stock quantity"
             type="number"
             min="0"
             value={form.stock}
@@ -164,18 +164,18 @@ export default function ProductManager({
           <input
             className="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none"
             name="image"
-            placeholder="Nombre de imagen, ej: dummy.webp"
+            placeholder="Image filename, e.g: bowl.webp"
             value={form.image}
             onChange={handleChange}
           />
           <fieldset className="rounded-lg border border-slate-300 px-4 py-3">
             <legend className="px-1 text-sm font-medium text-slate-700">
-              Categorias
+              Categories
             </legend>
 
             {initialCategories.length === 0 ? (
               <p className="py-2 text-sm text-slate-500">
-                Crea una categoria antes de asociarla a productos.
+                Create a category before associating it with bowls.
               </p>
             ) : (
               <div className="grid gap-3">
@@ -214,14 +214,14 @@ export default function ProductManager({
               disabled={isSaving}
               type="submit"
             >
-              {isSaving ? "Guardando..." : editingId ? "Actualizar" : "Crear"}
+              {isSaving ? "Saving..." : editingId ? "Update" : "Create"}
             </button>
             <button
               className="rounded-lg border border-slate-300 px-4 py-3 text-sm font-semibold text-slate-700"
               type="button"
               onClick={resetForm}
             >
-              Limpiar
+              Clear
             </button>
           </div>
         </form>
@@ -232,9 +232,9 @@ export default function ProductManager({
       <section className="rounded-lg border border-black/10 bg-white p-6 shadow-sm">
         <div className="flex items-center justify-between gap-4">
           <div>
-            <h2 className="text-2xl font-semibold text-slate-900">Productos</h2>
+            <h2 className="text-2xl font-semibold text-slate-900">Bowls</h2>
             <p className="mt-2 text-sm text-slate-600">
-              Lista obtenida desde el container del dashboard.
+              List of all sushi bowls in the catalog.
             </p>
           </div>
           <button
@@ -243,12 +243,12 @@ export default function ProductManager({
             type="button"
             onClick={refreshProducts}
           >
-            {isRefreshing ? "Recargando..." : "Recargar"}
+            {isRefreshing ? "Reloading..." : "Reload"}
           </button>
         </div>
 
         {initialProducts.length === 0 ? (
-          <p className="mt-6 text-slate-600">Todavia no hay productos cargados.</p>
+          <p className="mt-6 text-slate-600">No bowls loaded yet.</p>
         ) : (
           <div className="mt-6 grid gap-4">
             {initialProducts.map((product) => (
@@ -260,12 +260,12 @@ export default function ProductManager({
                   <div>
                     <h3 className="text-xl font-semibold text-slate-900">{product.name}</h3>
                     <p className="mt-2 text-sm text-slate-600">
-                      {product.description || "Sin descripcion"}
+                      {product.description || "No description"}
                     </p>
                   </div>
                   <div className="text-right text-sm text-slate-700">
                     <p>${product.price}</p>
-                    <p>Stock: {product.stock}</p>
+                    <p>Available: {product.stock}</p>
                   </div>
                 </div>
 
@@ -292,14 +292,14 @@ export default function ProductManager({
                     type="button"
                     onClick={() => handleEdit(product)}
                   >
-                    Editar
+                    Edit
                   </button>
                   <button
                     className="rounded-lg bg-red-100 px-4 py-2 text-sm font-semibold text-red-900"
                     type="button"
                     onClick={() => handleDelete(product._id)}
                   >
-                    Eliminar
+                    Delete
                   </button>
                 </div>
               </article>

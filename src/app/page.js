@@ -11,14 +11,13 @@ export default async function Home() {
       <div className="mx-auto max-w-6xl">
         <section className="mb-8">
           <p className="text-sm uppercase tracking-[0.3em] text-emerald-300">
-            Programacion 3
+            Sushi Shop
           </p>
           <h1 className="mt-4 max-w-3xl text-4xl font-semibold">
-            Productos
+            Custom Sushi Bowls
           </h1>
           <p className="mt-4 max-w-2xl text-base text-slate-600">
-            Catalogo publico del ecommerce. La administracion queda disponible
-            en /dashboard.
+            Explore our delicious customizable sushi bowls. Admin panel available at /dashboard.
           </p>
         </section>
 

@@ -56,7 +56,7 @@ export default function CategoryManager({ initialCategories = [] }) {
         refreshCategories();
       }
     } catch {
-      setMessage("Ocurrio un error al guardar la categoria.");
+      setMessage("An error occurred while saving the category.");
     } finally {
       setIsSaving(false);
     }
@@ -68,14 +68,14 @@ export default function CategoryManager({ initialCategories = [] }) {
       name: category.name,
       description: category.description,
     });
-    setMessage("Editando categoria.");
+    setMessage("Editing category.");
   }
 
   async function handleDelete(id) {
     const result = await deleteCategory(id);
 
     if (!result.ok) {
-      setMessage(result.message || "No se pudo eliminar la categoria.");
+      setMessage(result.message || "Could not delete the category.");
       return;
     }
 
@@ -91,17 +91,17 @@ export default function CategoryManager({ initialCategories = [] }) {
     <div className="grid gap-8 lg:grid-cols-[360px_1fr]">
       <section className="rounded-lg border border-black/10 bg-white p-6 shadow-sm">
         <h2 className="text-2xl font-semibold text-slate-900">
-          {editingId ? "Editar categoria" : "Nueva categoria"}
+          {editingId ? "Edit Category" : "New Category"}
         </h2>
         <p className="mt-2 text-sm text-slate-600">
-          Las categorias se pueden asociar a muchos productos.
+          Categories can be associated with multiple bowls.
         </p>
 
         <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
           <input
             className="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none"
             name="name"
-            placeholder="Nombre"
+            placeholder="Category name"
             value={form.name}
             onChange={handleChange}
             required
@@ -109,7 +109,7 @@ export default function CategoryManager({ initialCategories = [] }) {
           <textarea
             className="min-h-28 w-full rounded-lg border border-slate-300 px-4 py-3 outline-none"
             name="description"
-            placeholder="Descripcion"
+            placeholder="Description"
             value={form.description}
             onChange={handleChange}
           />
@@ -120,14 +120,14 @@ export default function CategoryManager({ initialCategories = [] }) {
               disabled={isSaving}
               type="submit"
             >
-              {isSaving ? "Guardando..." : editingId ? "Actualizar" : "Crear"}
+              {isSaving ? "Saving..." : editingId ? "Update" : "Create"}
             </button>
             <button
               className="rounded-lg border border-slate-300 px-4 py-3 text-sm font-semibold text-slate-700"
               type="button"
               onClick={resetForm}
             >
-              Limpiar
+              Clear
             </button>
           </div>
         </form>
@@ -138,9 +138,9 @@ export default function CategoryManager({ initialCategories = [] }) {
       <section className="rounded-lg border border-black/10 bg-white p-6 shadow-sm">
         <div className="flex items-center justify-between gap-4">
           <div>
-            <h2 className="text-2xl font-semibold text-slate-900">Categorias</h2>
+            <h2 className="text-2xl font-semibold text-slate-900">Categories</h2>
             <p className="mt-2 text-sm text-slate-600">
-              Lista de rubros disponibles para los productos.
+              List of available categories for bowls.
             </p>
           </div>
           <button
@@ -149,12 +149,12 @@ export default function CategoryManager({ initialCategories = [] }) {
             type="button"
             onClick={refreshCategories}
           >
-            {isRefreshing ? "Recargando..." : "Recargar"}
+            {isRefreshing ? "Reloading..." : "Reload"}
           </button>
         </div>
 
         {initialCategories.length === 0 ? (
-          <p className="mt-6 text-slate-600">Todavia no hay categorias cargadas.</p>
+          <p className="mt-6 text-slate-600">No categories loaded yet.</p>
         ) : (
           <div className="mt-6 grid gap-4">
             {initialCategories.map((category) => (
@@ -166,7 +166,7 @@ export default function CategoryManager({ initialCategories = [] }) {
                   {category.name}
                 </h3>
                 <p className="mt-2 text-sm text-slate-600">
-                  {category.description || "Sin descripcion"}
+                  {category.description || "No description"}
                 </p>
                 <p className="mt-3 break-all text-xs text-slate-500">
                   ID: {category._id}
@@ -178,14 +178,14 @@ export default function CategoryManager({ initialCategories = [] }) {
                     type="button"
                     onClick={() => handleEdit(category)}
                   >
-                    Editar
+                    Edit
                   </button>
                   <button
                     className="rounded-lg bg-red-100 px-4 py-2 text-sm font-semibold text-red-900"
                     type="button"
                     onClick={() => handleDelete(category._id)}
                   >
-                    Eliminar
+                    Delete
                   </button>
                 </div>
               </article>

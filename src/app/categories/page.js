@@ -12,19 +12,19 @@ export default async function CategoriesPage() {
       <div className="mx-auto max-w-6xl">
         <section className="mb-8">
           <p className="text-sm uppercase tracking-[0.3em] text-emerald-500">
-            Categorias
+            Categories
           </p>
           <h1 className="mt-4 max-w-3xl text-4xl font-semibold">
-            Rubros del ecommerce
+            Bowl Categories
           </h1>
           <p className="mt-4 max-w-2xl text-base text-slate-600">
-            Cada categoria lista los productos asociados desde su pagina publica.
+            Explore our different sushi bowl categories and find your favorite flavors.
           </p>
         </section>
 
         {categories.length === 0 ? (
           <p className="rounded-lg border border-dashed border-slate-300 bg-white p-8 text-center text-slate-600">
-            Todavia no hay categorias cargadas.
+            No categories loaded yet.
           </p>
         ) : (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -38,7 +38,7 @@ export default async function CategoriesPage() {
                   {category.name}
                 </h2>
                 <p className="mt-2 text-sm text-slate-600">
-                  {category.description || "Sin descripcion"}
+                  {category.description || "No description"}
                 </p>
               </Link>
             ))}

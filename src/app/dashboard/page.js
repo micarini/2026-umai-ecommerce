@@ -21,14 +21,13 @@ export default function DashboardPage() {
       <div className="mx-auto max-w-6xl">
         <section className="rounded-lg bg-slate-900 px-8 py-10 text-white shadow-xl">
           <p className="text-sm uppercase tracking-[0.3em] text-emerald-300">
-            Programacion 3
+            Admin Panel
           </p>
           <h1 className="mt-4 max-w-3xl text-4xl font-semibold">
-            Dashboard de ecommerce
+            Sushi Bowl Management
           </h1>
           <p className="mt-4 max-w-2xl text-base text-slate-300">
-            Administracion de productos y categorias con Next.js, Route
-            Handlers y MongoDB.
+            Manage your sushi bowl inventory, categories, and orders with Next.js Route Handlers and MongoDB.
           </p>
 
           <div className="mt-8 flex flex-wrap gap-3">

@@ -24,12 +24,12 @@ export default async function CategoryProductsPage({ params }) {
           className="text-sm font-medium text-emerald-700 hover:text-emerald-900"
           href="/"
         >
-          Volver al catalogo
+          Back to catalog
         </Link>
 
         <section className="mb-8 mt-6">
           <p className="text-sm uppercase tracking-[0.3em] text-emerald-500">
-            Categoria
+            Category
           </p>
           <h1 className="mt-4 max-w-3xl text-4xl font-semibold">
             {category.name}
