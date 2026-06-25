@@ -1,5 +1,10 @@
 import { NextResponse } from "next/server";
 
+import {
+  ADMIN_SESSION_COOKIE,
+  getExpectedAdminSessionToken,
+} from "@/lib/admin-auth";
+
 function isMutatingMethod(method) {
   return ["POST", "PUT", "PATCH", "DELETE"].includes(method);
 }
@@ -8,76 +13,38 @@ function isProtectedApiPath(pathname) {
   return pathname.startsWith("/api/products") || pathname.startsWith("/api/categories");
 }
 
-function isProtectedPath(pathname, method) {
-  if (pathname.startsWith("/dashboard")) {
-    return true;
-  }
+function redirectToLogin(request) {
+  const loginUrl = new URL("/admin/login", request.url);
+  const nextPath = `${request.nextUrl.pathname}${request.nextUrl.search}`;
+  loginUrl.searchParams.set("next", nextPath);
 
-  return isProtectedApiPath(pathname) && isMutatingMethod(method);
+  return NextResponse.redirect(loginUrl);
 }
 
-function parseBasicAuth(authorizationHeader) {
-  if (!authorizationHeader?.startsWith("Basic ")) {
-    return null;
-  }
-
-  try {
-    const decoded = atob(authorizationHeader.slice(6));
-    const separatorIndex = decoded.indexOf(":");
-
-    if (separatorIndex === -1) {
-      return null;
-    }
-
-    return {
-      username: decoded.slice(0, separatorIndex),
-      password: decoded.slice(separatorIndex + 1),
-    };
-  } catch {
-    return null;
-  }
-}
-
-function unauthorized() {
-  return new NextResponse("Authentication required", {
-    status: 401,
-    headers: {
-      "WWW-Authenticate": 'Basic realm="Sushi Bowl Admin", charset="UTF-8"',
-    },
-  });
-}
-
-export function proxy(request) {
-  if (process.env.NODE_ENV !== "production") {
-    return NextResponse.next();
-  }
-
-  const adminUser = process.env.ADMIN_DASHBOARD_USER;
-  const adminPassword = process.env.ADMIN_DASHBOARD_PASSWORD;
-
-  if (!adminUser || !adminPassword) {
-    return unauthorized();
-  }
-
+export async function proxy(request) {
   const { pathname } = request.nextUrl;
 
-  if (!isProtectedPath(pathname, request.method)) {
+  if (pathname === "/admin/login" || pathname.startsWith("/api/admin")) {
     return NextResponse.next();
   }
 
-  const credentials = parseBasicAuth(request.headers.get("authorization"));
+  const sessionToken = request.cookies.get(ADMIN_SESSION_COOKIE)?.value;
+  const expectedSessionToken = await getExpectedAdminSessionToken().catch(() => null);
+  const isAuthenticated = Boolean(sessionToken && expectedSessionToken && sessionToken === expectedSessionToken);
 
-  if (
-    !credentials ||
-    credentials.username !== adminUser ||
-    credentials.password !== adminPassword
-  ) {
-    return unauthorized();
+  if (pathname.startsWith("/dashboard")) {
+    return isAuthenticated ? NextResponse.next() : redirectToLogin(request);
+  }
+
+  if (isProtectedApiPath(pathname) && isMutatingMethod(request.method)) {
+    return isAuthenticated
+      ? NextResponse.next()
+      : NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/api/products/:path*", "/api/categories/:path*"],
+  matcher: ["/dashboard/:path*", "/api/products/:path*", "/api/categories/:path*", "/admin/login", "/api/admin/:path*"],
 };

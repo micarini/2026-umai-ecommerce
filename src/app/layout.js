@@ -1,33 +1,29 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 
+import { AppProvider } from "@/context/AppContext";
 import Navbar from "@/components/Navbar";
 
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  variable: "--font-jakarta",
+  display: "swap",
 });
 
 export const metadata = {
-  title: "Sushi Bowl Shop",
-  description: "Build your perfect customizable sushi bowl. Fresh ingredients and unique combinations.",
+  title: "Honu Bowls",
+  description: "Fresh, customizable poke & sushi bowls made with premium ingredients.",
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col">
-        <Navbar />
-        {children}
+    <html lang="en" className={`${jakarta.variable} h-full`}>
+      <body className="min-h-full flex flex-col antialiased">
+        <AppProvider>
+          <Navbar />
+          {children}
+        </AppProvider>
       </body>
     </html>
   );

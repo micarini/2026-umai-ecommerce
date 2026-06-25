@@ -2,10 +2,15 @@
 
 import mongoose from "mongoose";
 import { revalidatePath } from "next/cache";
+import { cookies } from "next/headers";
 
 import Category from "@/models/Category";
 import Product from "@/models/Product";
 import { connectDB } from "@/lib/mongodb";
+import {
+  ADMIN_SESSION_COOKIE,
+  getExpectedAdminSessionToken,
+} from "@/lib/admin-auth";
 
 function getCategoryPayload(formData) {
   return {
@@ -19,8 +24,24 @@ function revalidateCategoryViews() {
   revalidatePath("/dashboard");
 }
 
+async function assertAdminAccess() {
+  const cookieStore = await cookies();
+  const sessionToken = cookieStore.get(ADMIN_SESSION_COOKIE)?.value;
+
+  if (!sessionToken) {
+    return false;
+  }
+
+  const expectedSessionToken = await getExpectedAdminSessionToken().catch(() => null);
+  return Boolean(expectedSessionToken && sessionToken === expectedSessionToken);
+}
+
 export async function createCategory(_previousState, formData) {
   try {
+    if (!(await assertAdminAccess())) {
+      return { ok: false, message: "Unauthorized." };
+    }
+
     await connectDB();
     await Category.create(getCategoryPayload(formData));
     revalidateCategoryViews();
@@ -40,6 +61,10 @@ export async function updateCategory(id, _previousState, formData) {
   }
 
   try {
+    if (!(await assertAdminAccess())) {
+      return { ok: false, message: "Unauthorized." };
+    }
+
     await connectDB();
 
     const category = await Category.findByIdAndUpdate(
@@ -71,6 +96,10 @@ export async function deleteCategory(id) {
   }
 
   try {
+    if (!(await assertAdminAccess())) {
+      return { ok: false, message: "Unauthorized." };
+    }
+
     await connectDB();
 
     const category = await Category.findByIdAndDelete(id);

@@ -2,10 +2,15 @@
 
 import mongoose from "mongoose";
 import { revalidatePath } from "next/cache";
+import { cookies } from "next/headers";
 
 import { connectDB } from "@/lib/mongodb";
 import "@/models/Category";
 import Product from "@/models/Product";
+import {
+  ADMIN_SESSION_COOKIE,
+  getExpectedAdminSessionToken,
+} from "@/lib/admin-auth";
 
 function getProductPayload(formData) {
   return {
@@ -25,27 +30,47 @@ function revalidateProductsDashboard() {
   revalidatePath("/dashboard");
 }
 
+async function assertAdminAccess() {
+  const cookieStore = await cookies();
+  const sessionToken = cookieStore.get(ADMIN_SESSION_COOKIE)?.value;
+
+  if (!sessionToken) {
+    return false;
+  }
+
+  const expectedSessionToken = await getExpectedAdminSessionToken().catch(() => null);
+  return Boolean(expectedSessionToken && sessionToken === expectedSessionToken);
+}
+
 export async function createProduct(_previousState, formData) {
   try {
+    if (!(await assertAdminAccess())) {
+      return { ok: false, message: "Unauthorized." };
+    }
+
     await connectDB();
     await Product.create(getProductPayload(formData));
     revalidateProductsDashboard();
 
-    return { ok: true, message: "Producto creado." };
+    return { ok: true, message: "Product created." };
   } catch (error) {
     return {
       ok: false,
-      message: error.message || "Error al crear el producto.",
+      message: error.message || "Error when creating the product.",
     };
   }
 }
 
 export async function updateProduct(id, _previousState, formData) {
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return { ok: false, message: "ID de producto invalido." };
+    return { ok: false, message: "Invalid product ID." };
   }
 
   try {
+    if (!(await assertAdminAccess())) {
+      return { ok: false, message: "Unauthorized." };
+    }
+
     await connectDB();
 
     const product = await Product.findByIdAndUpdate(id, getProductPayload(formData), {
@@ -54,39 +79,43 @@ export async function updateProduct(id, _previousState, formData) {
     });
 
     if (!product) {
-      return { ok: false, message: "Producto no encontrado." };
+      return { ok: false, message: "Product not found." };
     }
 
     revalidateProductsDashboard();
-    return { ok: true, message: "Producto actualizado." };
+    return { ok: true, message: "Product updated." };
   } catch (error) {
     return {
       ok: false,
-      message: error.message || "Error al actualizar el producto.",
+      message: error.message || "Error when updating the product.",
     };
   }
 }
 
 export async function deleteProduct(id) {
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return { ok: false, message: "ID de producto invalido." };
+    return { ok: false, message: "Invalid product ID." };
   }
 
   try {
+    if (!(await assertAdminAccess())) {
+      return { ok: false, message: "Unauthorized." };
+    }
+
     await connectDB();
 
     const product = await Product.findByIdAndDelete(id);
 
     if (!product) {
-      return { ok: false, message: "Producto no encontrado." };
+      return { ok: false, message: "Product not found." };
     }
 
     revalidateProductsDashboard();
-    return { ok: true, message: "Producto eliminado." };
+    return { ok: true, message: "Product deleted." };
   } catch (error) {
     return {
       ok: false,
-      message: error.message || "Error al eliminar el producto.",
+      message: error.message || "Error when deleting the product.",
     };
   }
 }

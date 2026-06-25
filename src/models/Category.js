@@ -13,13 +13,23 @@ const categorySchema = new mongoose.Schema(
       default: "",
       trim: true,
     },
+    // "main" = navegación principal (Bowls, Drinks, Desserts)
+    // "tag"  = etiqueta visual en el producto (Vegetarian, Classic, etc.)
+    type: {
+      type: String,
+      enum: ["main", "tag"],
+      default: "tag",
+    },
   },
   {
     timestamps: true,
   }
 );
 
-const Category =
-  mongoose.models.Category || mongoose.model("Category", categorySchema);
+if (mongoose.models.Category) {
+  delete mongoose.models.Category;
+}
+
+const Category = mongoose.model("Category", categorySchema);
 
 export default Category;
