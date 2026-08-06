@@ -2,6 +2,9 @@ import Image from "next/image";
 import Link from "next/link";
 
 import ProductCatalog from "@/components/ProductCatalog";
+import HomeStorySection from "@/components/HomeStorySection";
+import HomeProcessSection from "@/components/HomeProcessSection";
+import HomeTestimonialsSection from "@/components/HomeTestimonialsSection";
 import { getTagCategories } from "@/lib/categories";
 import { getProducts } from "@/lib/products";
 
@@ -66,6 +69,10 @@ export default async function Home() {
 
         <ProductCatalog products={products} tagCategories={tagCategories} />
       </section>
+
+      <HomeStorySection />
+      <HomeProcessSection />
+      <HomeTestimonialsSection />
     </main>
   );
 }
