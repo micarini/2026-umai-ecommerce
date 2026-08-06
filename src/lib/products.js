@@ -35,13 +35,20 @@ function serializeProduct(product) {
   };
 }
 
+// "Build Your Own Bowl" (type "custom") siempre va primero en el listado.
+function customFirst(a, b) {
+  if (a.type === "custom" && b.type !== "custom") return -1;
+  if (b.type === "custom" && a.type !== "custom") return 1;
+  return 0;
+}
+
 export async function getProducts() {
   await connectDB();
   const products = await Product.find()
     .populate("categories")
-    .sort({ createdAt: -1 })
+    .sort({ createdAt: 1 })
     .lean();
-  return products.map(serializeProduct);
+  return products.map(serializeProduct).sort(customFirst);
 }
 
 export async function getProductById(id) {
@@ -54,9 +61,9 @@ export async function getProductsByCategory(categoryId) {
   await connectDB();
   const products = await Product.find({ categories: categoryId })
     .populate("categories")
-    .sort({ createdAt: -1 })
+    .sort({ createdAt: 1 })
     .lean();
-  return products.map(serializeProduct);
+  return products.map(serializeProduct).sort(customFirst);
 }
 
 export async function getRelatedProducts(productId, categoryIds, limit = 3) {
@@ -67,6 +74,15 @@ export async function getRelatedProducts(productId, categoryIds, limit = 3) {
   })
     .populate("categories")
     .limit(limit)
+    .lean();
+  return products.map(serializeProduct);
+}
+
+export async function getLowStockProducts() {
+  await connectDB();
+  const products = await Product.find({ stock: { $lte: 1 } })
+    .populate("categories")
+    .sort({ stock: 1 })
     .lean();
   return products.map(serializeProduct);
 }

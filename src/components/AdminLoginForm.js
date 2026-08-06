@@ -40,14 +40,14 @@ export default function AdminLoginForm({ nextPath = "/dashboard" }) {
   return (
     <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
       <input
-        className="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none"
+        className="w-full rounded-lg border border-sand bg-cream px-4 py-3 text-teal outline-none focus:border-teal"
         placeholder="Username"
         value={username}
         onChange={(event) => setUsername(event.target.value)}
         required
       />
       <input
-        className="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none"
+        className="w-full rounded-lg border border-sand bg-cream px-4 py-3 text-teal outline-none focus:border-teal"
         placeholder="Password"
         type="password"
         value={password}
@@ -56,14 +56,14 @@ export default function AdminLoginForm({ nextPath = "/dashboard" }) {
       />
 
       <button
-        className="w-full rounded-lg bg-slate-900 px-4 py-3 text-sm font-semibold text-white"
+        className="w-full rounded-full bg-salmon py-3 text-sm font-bold text-white transition hover:bg-salmon-dark disabled:cursor-not-allowed disabled:opacity-50"
         disabled={isSubmitting}
         type="submit"
       >
         {isSubmitting ? "Signing in..." : "Sign in"}
       </button>
 
-      {message ? <p className="text-sm text-red-600">{message}</p> : null}
+      {message ? <p className="text-sm text-salmon">{message}</p> : null}
     </form>
   );
 }

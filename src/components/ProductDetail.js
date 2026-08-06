@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 
 import { useApp } from "@/context/AppContext";
+import FavoriteButton from "@/components/FavoriteButton";
 
 function getProductImageSrc(image) {
   if (!image) return "";
@@ -100,9 +101,8 @@ function MultiSelect({ customization, values, onChange }) {
 
 // ── Componente principal ───────────────────────────────────────────────────────
 export default function ProductDetail({ product, relatedProducts = [] }) {
-  const { addToCart, addToFavorites, removeFromFavorites, favorites } = useApp();
+  const { addToCart } = useApp();
   const isCustom = product.type === "custom";
-  const isFavorite = favorites.includes(product._id);
 
   // Estado de customizaciones: { [customizationName]: string | string[] }
   const [selections, setSelections] = useState(() => {
@@ -172,14 +172,6 @@ export default function ProductDetail({ product, relatedProducts = [] }) {
     setTimeout(() => setAdded(false), 2000);
   }
 
-  function toggleFavorite() {
-    if (isFavorite) {
-      removeFromFavorites(product._id);
-    } else {
-      addToFavorites(product._id);
-    }
-  }
-
   const tagCategories = product.categories.filter(
     (c) => typeof c === "object" && c.type === "tag"
   );
@@ -214,12 +206,10 @@ export default function ProductDetail({ product, relatedProducts = [] }) {
           )}
 
           {/* Favorite button */}
-          <button
-            onClick={toggleFavorite}
-            className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 shadow backdrop-blur-sm transition hover:scale-110"
-          >
-            {isFavorite ? "❤️" : "🤍"}
-          </button>
+          <FavoriteButton
+            productId={product._id}
+            className="absolute right-4 top-4 h-10 w-10 text-lg"
+          />
         </div>
 
         {/* Info + customizations */}

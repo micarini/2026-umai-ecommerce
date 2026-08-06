@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import FavoriteButton from "@/components/FavoriteButton";
+
 function getProductImageSrc(image) {
   if (!image) return "";
   if (image.startsWith("/")) return image;
@@ -46,6 +48,8 @@ export default function ProductGrid({ products = [] }) {
                 {product.categories[0].name}
               </span>
             )}
+
+            <FavoriteButton productId={product._id} className="absolute right-3 top-3 h-9 w-9" />
           </div>
 
           {/* Info */}
@@ -61,10 +65,6 @@ export default function ProductGrid({ products = [] }) {
 
             <p className="mt-1.5 line-clamp-2 text-sm text-teal/55">
               {product.description || "No description"}
-            </p>
-
-            <p className="mt-3 text-xs font-semibold text-teal/40 transition group-hover:text-salmon">
-              Order now →
             </p>
           </div>
         </Link>

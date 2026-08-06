@@ -1,20 +1,21 @@
 import LoginForm from "@/components/LoginForm";
 
 export const metadata = {
-  title: "Sign In — Sushi Bowl Shop",
+  title: "Sign In — Honu Bowls",
 };
 
-export default function LoginPage({ searchParams }) {
-  const nextPath = searchParams?.next || "/";
+export default async function LoginPage({ searchParams }) {
+  const params = await searchParams;
+  const nextPath = params?.next || "/";
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-slate-50 px-6 py-10 text-slate-900">
-      <section className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
-        <p className="text-sm uppercase tracking-[0.3em] text-emerald-500">
+    <main className="flex min-h-screen items-center justify-center bg-cream px-6 py-10 text-teal">
+      <section className="w-full max-w-md rounded-3xl border border-sand bg-white/40 p-8">
+        <p className="text-xs font-bold uppercase tracking-[0.25em] text-wasabi">
           Welcome back
         </p>
-        <h1 className="mt-4 text-3xl font-semibold">Sign in</h1>
-        <p className="mt-3 text-sm text-slate-600">
+        <h1 className="mt-4 text-3xl font-extrabold text-teal">Sign in</h1>
+        <p className="mt-3 text-sm text-teal/60">
           Sign in to save your favorites and track your orders.
         </p>
 

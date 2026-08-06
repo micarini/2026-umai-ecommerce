@@ -116,17 +116,17 @@ export default function ProductManager({
 
   return (
     <div className="grid gap-8 lg:grid-cols-[360px_1fr]">
-      <section className="rounded-lg border border-black/10 bg-white p-6 shadow-sm">
-        <h2 className="text-2xl font-semibold text-slate-900">
+      <section className="rounded-3xl border border-sand bg-white/40 p-6">
+        <h2 className="text-2xl font-extrabold text-teal">
           {editingId ? "Edit Bowl" : "New Bowl"}
         </h2>
-        <p className="mt-2 text-sm text-slate-600">
-          Create and manage sushi bowl products.
+        <p className="mt-2 text-sm text-teal/60">
+          Create and manage bowl products.
         </p>
 
         <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
           <input
-            className="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none"
+            className="w-full rounded-lg border border-sand bg-cream px-4 py-3 text-teal outline-none focus:border-teal"
             name="name"
             placeholder="Bowl name"
             value={form.name}
@@ -134,14 +134,14 @@ export default function ProductManager({
             required
           />
           <textarea
-            className="min-h-28 w-full rounded-lg border border-slate-300 px-4 py-3 outline-none"
+            className="min-h-28 w-full rounded-lg border border-sand bg-cream px-4 py-3 text-teal outline-none focus:border-teal"
             name="description"
             placeholder="Description"
             value={form.description}
             onChange={handleChange}
           />
           <input
-            className="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none"
+            className="w-full rounded-lg border border-sand bg-cream px-4 py-3 text-teal outline-none focus:border-teal"
             name="price"
             placeholder="Price"
             type="number"
@@ -152,7 +152,7 @@ export default function ProductManager({
             required
           />
           <input
-            className="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none"
+            className="w-full rounded-lg border border-sand bg-cream px-4 py-3 text-teal outline-none focus:border-teal"
             name="stock"
             placeholder="Stock quantity"
             type="number"
@@ -162,19 +162,19 @@ export default function ProductManager({
             required
           />
           <input
-            className="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none"
+            className="w-full rounded-lg border border-sand bg-cream px-4 py-3 text-teal outline-none focus:border-teal"
             name="image"
-            placeholder="Image filename, e.g: bowl.webp"
+            placeholder="Image filename, e.g: spicy-tuna.png"
             value={form.image}
             onChange={handleChange}
           />
-          <fieldset className="rounded-lg border border-slate-300 px-4 py-3">
-            <legend className="px-1 text-sm font-medium text-slate-700">
+          <fieldset className="rounded-lg border border-sand px-4 py-3">
+            <legend className="px-1 text-sm font-bold text-teal/70">
               Categories
             </legend>
 
             {initialCategories.length === 0 ? (
-              <p className="py-2 text-sm text-slate-500">
+              <p className="py-2 text-sm text-teal/40">
                 Create a category before associating it with bowls.
               </p>
             ) : (
@@ -182,7 +182,7 @@ export default function ProductManager({
                 {initialCategories.map((category) => (
                   <label
                     key={category._id}
-                    className="flex cursor-pointer items-start gap-3 rounded-lg border border-slate-200 px-3 py-2 hover:bg-slate-50"
+                    className="flex cursor-pointer items-start gap-3 rounded-lg border border-sand px-3 py-2 hover:bg-sand/40"
                   >
                     <input
                       checked={form.categories.includes(category._id)}
@@ -193,11 +193,11 @@ export default function ProductManager({
                       onChange={handleCategoryChange}
                     />
                     <span>
-                      <span className="block text-sm font-medium text-slate-900">
+                      <span className="block text-sm font-bold text-teal">
                         {category.name}
                       </span>
                       {category.description ? (
-                        <span className="mt-1 block text-xs text-slate-500">
+                        <span className="mt-1 block text-xs text-teal/40">
                           {category.description}
                         </span>
                       ) : null}
@@ -210,14 +210,14 @@ export default function ProductManager({
 
           <div className="flex gap-3">
             <button
-              className="rounded-lg bg-slate-900 px-4 py-3 text-sm font-semibold text-white"
+              className="rounded-full bg-salmon px-6 py-3 text-sm font-bold text-white transition hover:bg-salmon-dark disabled:cursor-not-allowed disabled:opacity-50"
               disabled={isSaving}
               type="submit"
             >
               {isSaving ? "Saving..." : editingId ? "Update" : "Create"}
             </button>
             <button
-              className="rounded-lg border border-slate-300 px-4 py-3 text-sm font-semibold text-slate-700"
+              className="rounded-full border border-sand px-6 py-3 text-sm font-bold text-teal transition hover:bg-sand"
               type="button"
               onClick={resetForm}
             >
@@ -226,19 +226,19 @@ export default function ProductManager({
           </div>
         </form>
 
-        {message ? <p className="mt-4 text-sm text-slate-700">{message}</p> : null}
+        {message ? <p className="mt-4 text-sm text-teal/70">{message}</p> : null}
       </section>
 
-      <section className="rounded-lg border border-black/10 bg-white p-6 shadow-sm">
+      <section className="rounded-3xl border border-sand bg-white/40 p-6">
         <div className="flex items-center justify-between gap-4">
           <div>
-            <h2 className="text-2xl font-semibold text-slate-900">Bowls</h2>
-            <p className="mt-2 text-sm text-slate-600">
-              List of all sushi bowls in the catalog.
+            <h2 className="text-2xl font-extrabold text-teal">Bowls</h2>
+            <p className="mt-2 text-sm text-teal/60">
+              List of all bowls in the catalog.
             </p>
           </div>
           <button
-            className="rounded-lg border border-slate-300 px-4 py-3 text-sm font-semibold text-slate-700"
+            className="rounded-full border border-sand px-6 py-3 text-sm font-bold text-teal transition hover:bg-sand disabled:cursor-not-allowed disabled:opacity-50"
             disabled={isRefreshing}
             type="button"
             onClick={refreshProducts}
@@ -248,28 +248,28 @@ export default function ProductManager({
         </div>
 
         {initialProducts.length === 0 ? (
-          <p className="mt-6 text-slate-600">No bowls loaded yet.</p>
+          <p className="mt-6 text-teal/60">No bowls loaded yet.</p>
         ) : (
           <div className="mt-6 grid gap-4">
             {initialProducts.map((product) => (
               <article
                 key={product._id}
-                className="rounded-lg border border-slate-200 p-5"
+                className="rounded-2xl border border-sand p-5"
               >
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    <h3 className="text-xl font-semibold text-slate-900">{product.name}</h3>
-                    <p className="mt-2 text-sm text-slate-600">
+                    <h3 className="text-xl font-bold text-teal">{product.name}</h3>
+                    <p className="mt-2 text-sm text-teal/60">
                       {product.description || "No description"}
                     </p>
                   </div>
-                  <div className="text-right text-sm text-slate-700">
+                  <div className="text-right text-sm text-teal/70">
                     <p>${product.price}</p>
                     <p>Available: {product.stock}</p>
                   </div>
                 </div>
 
-                <p className="mt-3 break-all text-xs text-slate-500">
+                <p className="mt-3 break-all text-xs text-teal/40">
                   ID: {product._id}
                 </p>
 
@@ -278,7 +278,7 @@ export default function ProductManager({
                     {product.categories.map((category) => (
                       <span
                         key={typeof category === "string" ? category : category._id}
-                        className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-800"
+                        className="rounded-full bg-wasabi-light px-3 py-1 text-xs font-semibold text-wasabi"
                       >
                         {typeof category === "string" ? category : category.name}
                       </span>
@@ -288,14 +288,14 @@ export default function ProductManager({
 
                 <div className="mt-4 flex gap-3">
                   <button
-                    className="rounded-lg bg-amber-100 px-4 py-2 text-sm font-semibold text-amber-900"
+                    className="rounded-full border border-teal/20 px-4 py-2 text-sm font-bold text-teal transition hover:bg-sand"
                     type="button"
                     onClick={() => handleEdit(product)}
                   >
                     Edit
                   </button>
                   <button
-                    className="rounded-lg bg-red-100 px-4 py-2 text-sm font-semibold text-red-900"
+                    className="rounded-full bg-salmon/10 px-4 py-2 text-sm font-bold text-salmon transition hover:bg-salmon/20"
                     type="button"
                     onClick={() => handleDelete(product._id)}
                   >

@@ -121,6 +121,7 @@ export function AppProvider({ children }) {
   function logout() {
     setActiveUser(null);
     setFavorites([]);
+    fetch("/api/users/logout", { method: "POST" });
   }
 
   const cartTotal = cart.reduce((sum, item) => sum + item.subtotal, 0);

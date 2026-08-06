@@ -12,7 +12,7 @@ export async function GET() {
     return Response.json(products);
   } catch (error) {
     return Response.json(
-      { message: "Error al obtener los productos", error: error.message },
+      { message: "Error fetching products", error: error.message },
       { status: 500 }
     );
   }
@@ -35,7 +35,7 @@ export async function POST(request) {
     return Response.json(product, { status: 201 });
   } catch (error) {
     return Response.json(
-      { message: "Error al crear el producto", error: error.message },
+      { message: "Error creating the product", error: error.message },
       { status: 400 }
     );
   }

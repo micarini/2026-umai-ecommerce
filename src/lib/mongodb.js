@@ -18,8 +18,9 @@ export async function connectDB() {
   }
 
   if (!cached.promise) {
-    cached.promise = mongoose.connect(MONGODB_URI).then((mongooseInstance) => {
-      return mongooseInstance;
+    cached.promise = mongoose.connect(MONGODB_URI).catch((error) => {
+      cached.promise = null;
+      throw error;
     });
   }
 

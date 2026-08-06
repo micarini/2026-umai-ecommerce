@@ -1,13 +1,17 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import ProductGrid from "@/components/ProductGrid";
+import ProductCatalog from "@/components/ProductCatalog";
+import { getTagCategories } from "@/lib/categories";
 import { getProducts } from "@/lib/products";
 
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const products = await getProducts();
+  const [products, tagCategories] = await Promise.all([
+    getProducts(),
+    getTagCategories(),
+  ]);
 
   return (
     <main className="min-h-screen bg-cream text-teal">
@@ -39,7 +43,7 @@ export default async function Home() {
               href="#menu"
               className="rounded-full bg-salmon px-7 py-3 text-sm font-bold text-white hover:bg-salmon-dark"
             >
-              Order now →
+              Order now
             </a>
             <Link
               href="/categories"
@@ -60,7 +64,7 @@ export default async function Home() {
           <h2 className="mt-1 text-3xl font-extrabold text-teal">All bowls</h2>
         </div>
 
-        <ProductGrid products={products} />
+        <ProductCatalog products={products} tagCategories={tagCategories} />
       </section>
     </main>
   );

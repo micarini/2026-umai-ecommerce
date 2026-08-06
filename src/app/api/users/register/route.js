@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 
 import { connectDB } from "@/lib/mongodb";
-import { sha256Hex } from "@/lib/hash";
+import { generateSessionToken, sha256Hex } from "@/lib/hash";
+import { USER_SESSION_COOKIE } from "@/lib/user-auth";
 import User from "@/models/User";
 
 export const dynamic = "force-dynamic";
@@ -28,14 +29,29 @@ export async function POST(request) {
     }
 
     const hashedPassword = await sha256Hex(password);
-    const user = await User.create({ name, email, password: hashedPassword });
+    const sessionToken = generateSessionToken();
+    const user = await User.create({
+      name,
+      email,
+      password: hashedPassword,
+      sessionToken,
+    });
 
-    return NextResponse.json(
+    const response = NextResponse.json(
       {
         user: { _id: user._id, name: user.name, email: user.email },
       },
       { status: 201 }
     );
+
+    response.cookies.set(USER_SESSION_COOKIE, sessionToken, {
+      httpOnly: true,
+      sameSite: "lax",
+      path: "/",
+      maxAge: 60 * 60 * 24 * 30,
+    });
+
+    return response;
   } catch (error) {
     return NextResponse.json(
       { message: error.message || "Registration failed." },

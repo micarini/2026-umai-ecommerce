@@ -89,17 +89,17 @@ export default function CategoryManager({ initialCategories = [] }) {
 
   return (
     <div className="grid gap-8 lg:grid-cols-[360px_1fr]">
-      <section className="rounded-lg border border-black/10 bg-white p-6 shadow-sm">
-        <h2 className="text-2xl font-semibold text-slate-900">
+      <section className="rounded-3xl border border-sand bg-white/40 p-6">
+        <h2 className="text-2xl font-extrabold text-teal">
           {editingId ? "Edit Category" : "New Category"}
         </h2>
-        <p className="mt-2 text-sm text-slate-600">
+        <p className="mt-2 text-sm text-teal/60">
           Categories can be associated with multiple bowls.
         </p>
 
         <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
           <input
-            className="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none"
+            className="w-full rounded-lg border border-sand bg-cream px-4 py-3 text-teal outline-none focus:border-teal"
             name="name"
             placeholder="Category name"
             value={form.name}
@@ -107,7 +107,7 @@ export default function CategoryManager({ initialCategories = [] }) {
             required
           />
           <textarea
-            className="min-h-28 w-full rounded-lg border border-slate-300 px-4 py-3 outline-none"
+            className="min-h-28 w-full rounded-lg border border-sand bg-cream px-4 py-3 text-teal outline-none focus:border-teal"
             name="description"
             placeholder="Description"
             value={form.description}
@@ -116,14 +116,14 @@ export default function CategoryManager({ initialCategories = [] }) {
 
           <div className="flex gap-3">
             <button
-              className="rounded-lg bg-slate-900 px-4 py-3 text-sm font-semibold text-white"
+              className="rounded-full bg-salmon px-6 py-3 text-sm font-bold text-white transition hover:bg-salmon-dark disabled:cursor-not-allowed disabled:opacity-50"
               disabled={isSaving}
               type="submit"
             >
               {isSaving ? "Saving..." : editingId ? "Update" : "Create"}
             </button>
             <button
-              className="rounded-lg border border-slate-300 px-4 py-3 text-sm font-semibold text-slate-700"
+              className="rounded-full border border-sand px-6 py-3 text-sm font-bold text-teal transition hover:bg-sand"
               type="button"
               onClick={resetForm}
             >
@@ -132,19 +132,19 @@ export default function CategoryManager({ initialCategories = [] }) {
           </div>
         </form>
 
-        {message ? <p className="mt-4 text-sm text-slate-700">{message}</p> : null}
+        {message ? <p className="mt-4 text-sm text-teal/70">{message}</p> : null}
       </section>
 
-      <section className="rounded-lg border border-black/10 bg-white p-6 shadow-sm">
+      <section className="rounded-3xl border border-sand bg-white/40 p-6">
         <div className="flex items-center justify-between gap-4">
           <div>
-            <h2 className="text-2xl font-semibold text-slate-900">Categories</h2>
-            <p className="mt-2 text-sm text-slate-600">
+            <h2 className="text-2xl font-extrabold text-teal">Categories</h2>
+            <p className="mt-2 text-sm text-teal/60">
               List of available categories for bowls.
             </p>
           </div>
           <button
-            className="rounded-lg border border-slate-300 px-4 py-3 text-sm font-semibold text-slate-700"
+            className="rounded-full border border-sand px-6 py-3 text-sm font-bold text-teal transition hover:bg-sand disabled:cursor-not-allowed disabled:opacity-50"
             disabled={isRefreshing}
             type="button"
             onClick={refreshCategories}
@@ -154,34 +154,34 @@ export default function CategoryManager({ initialCategories = [] }) {
         </div>
 
         {initialCategories.length === 0 ? (
-          <p className="mt-6 text-slate-600">No categories loaded yet.</p>
+          <p className="mt-6 text-teal/60">No categories loaded yet.</p>
         ) : (
           <div className="mt-6 grid gap-4">
             {initialCategories.map((category) => (
               <article
                 key={category._id}
-                className="rounded-lg border border-slate-200 p-5"
+                className="rounded-2xl border border-sand p-5"
               >
-                <h3 className="text-xl font-semibold text-slate-900">
+                <h3 className="text-xl font-bold text-teal">
                   {category.name}
                 </h3>
-                <p className="mt-2 text-sm text-slate-600">
+                <p className="mt-2 text-sm text-teal/60">
                   {category.description || "No description"}
                 </p>
-                <p className="mt-3 break-all text-xs text-slate-500">
+                <p className="mt-3 break-all text-xs text-teal/40">
                   ID: {category._id}
                 </p>
 
                 <div className="mt-4 flex gap-3">
                   <button
-                    className="rounded-lg bg-amber-100 px-4 py-2 text-sm font-semibold text-amber-900"
+                    className="rounded-full border border-teal/20 px-4 py-2 text-sm font-bold text-teal transition hover:bg-sand"
                     type="button"
                     onClick={() => handleEdit(category)}
                   >
                     Edit
                   </button>
                   <button
-                    className="rounded-lg bg-red-100 px-4 py-2 text-sm font-semibold text-red-900"
+                    className="rounded-full bg-salmon/10 px-4 py-2 text-sm font-bold text-salmon transition hover:bg-salmon/20"
                     type="button"
                     onClick={() => handleDelete(category._id)}
                   >

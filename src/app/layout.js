@@ -2,6 +2,7 @@ import { Plus_Jakarta_Sans } from "next/font/google";
 
 import { AppProvider } from "@/context/AppContext";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 import "./globals.css";
 
@@ -23,6 +24,7 @@ export default function RootLayout({ children }) {
         <AppProvider>
           <Navbar />
           {children}
+          <Footer />
         </AppProvider>
       </body>
     </html>

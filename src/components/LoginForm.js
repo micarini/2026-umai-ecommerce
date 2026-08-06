@@ -72,7 +72,7 @@ export default function LoginForm({ nextPath = "/" }) {
   return (
     <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
       <input
-        className="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+        className="w-full rounded-lg border border-sand bg-cream px-4 py-3 text-teal outline-none focus:border-teal"
         placeholder="Email or username"
         type="text"
         value={identifier}
@@ -82,7 +82,7 @@ export default function LoginForm({ nextPath = "/" }) {
 
       <div className="relative">
         <input
-          className="w-full rounded-lg border border-slate-300 px-4 py-3 pr-12 outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+          className="w-full rounded-lg border border-sand bg-cream px-4 py-3 pr-12 text-teal outline-none focus:border-teal"
           placeholder="Password"
           type={showPassword ? "text" : "password"}
           value={password}
@@ -92,7 +92,7 @@ export default function LoginForm({ nextPath = "/" }) {
         <button
           type="button"
           onClick={() => setShowPassword((v) => !v)}
-          className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700"
+          className="absolute right-3 top-1/2 -translate-y-1/2 text-teal/40 hover:text-teal"
           tabIndex={-1}
         >
           <EyeIcon open={showPassword} />
@@ -100,18 +100,18 @@ export default function LoginForm({ nextPath = "/" }) {
       </div>
 
       <button
-        className="w-full rounded-lg bg-emerald-600 px-4 py-3 text-sm font-semibold text-white hover:bg-emerald-700 disabled:opacity-60"
+        className="w-full rounded-full bg-salmon py-3 text-sm font-bold text-white transition hover:bg-salmon-dark disabled:cursor-not-allowed disabled:opacity-50"
         disabled={isSubmitting}
         type="submit"
       >
         {isSubmitting ? "Signing in..." : "Sign in"}
       </button>
 
-      {message && <p className="text-sm text-red-600">{message}</p>}
+      {message && <p className="text-sm text-salmon">{message}</p>}
 
-      <p className="text-center text-sm text-slate-600">
+      <p className="text-center text-sm text-teal/60">
         Don&apos;t have an account?{" "}
-        <Link href="/register" className="font-medium text-emerald-600 hover:underline">
+        <Link href="/register" className="font-bold text-teal hover:underline">
           Register
         </Link>
       </p>

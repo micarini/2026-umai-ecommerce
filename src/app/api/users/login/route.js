@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 
 import { connectDB } from "@/lib/mongodb";
-import { sha256Hex } from "@/lib/hash";
+import { generateSessionToken, sha256Hex } from "@/lib/hash";
+import { USER_SESSION_COOKIE } from "@/lib/user-auth";
 import User from "@/models/User";
 
 export const dynamic = "force-dynamic";
@@ -35,9 +36,22 @@ export async function POST(request) {
       );
     }
 
-    return NextResponse.json({
+    const sessionToken = generateSessionToken();
+    user.sessionToken = sessionToken;
+    await user.save();
+
+    const response = NextResponse.json({
       user: { _id: user._id, name: user.name, email: user.email },
     });
+
+    response.cookies.set(USER_SESSION_COOKIE, sessionToken, {
+      httpOnly: true,
+      sameSite: "lax",
+      path: "/",
+      maxAge: 60 * 60 * 24 * 30,
+    });
+
+    return response;
   } catch (error) {
     return NextResponse.json(
       { message: error.message || "Login failed." },

@@ -8,7 +8,7 @@ import Product from "@/models/Product";
 export const dynamic = "force-dynamic";
 
 function invalidIdResponse() {
-  return Response.json({ message: "ID de categoria invalido" }, { status: 400 });
+  return Response.json({ message: "Invalid category ID" }, { status: 400 });
 }
 
 export async function GET(_request, { params }) {
@@ -22,13 +22,13 @@ export async function GET(_request, { params }) {
     const category = await getCategoryById(id);
 
     if (!category) {
-      return Response.json({ message: "Categoria no encontrada" }, { status: 404 });
+      return Response.json({ message: "Category not found" }, { status: 404 });
     }
 
     return Response.json(category);
   } catch (error) {
     return Response.json(
-      { message: "Error al obtener la categoria", error: error.message },
+      { message: "Error fetching the category", error: error.message },
       { status: 500 }
     );
   }
@@ -58,13 +58,13 @@ export async function PUT(request, { params }) {
     );
 
     if (!category) {
-      return Response.json({ message: "Categoria no encontrada" }, { status: 404 });
+      return Response.json({ message: "Category not found" }, { status: 404 });
     }
 
     return Response.json(category);
   } catch (error) {
     return Response.json(
-      { message: "Error al actualizar la categoria", error: error.message },
+      { message: "Error updating the category", error: error.message },
       { status: 400 }
     );
   }
@@ -82,7 +82,7 @@ export async function DELETE(_request, { params }) {
     const category = await Category.findByIdAndDelete(id);
 
     if (!category) {
-      return Response.json({ message: "Categoria no encontrada" }, { status: 404 });
+      return Response.json({ message: "Category not found" }, { status: 404 });
     }
 
     await Product.updateMany(
@@ -90,10 +90,10 @@ export async function DELETE(_request, { params }) {
       { $pull: { categories: category._id } }
     );
 
-    return Response.json({ message: "Categoria eliminada correctamente" });
+    return Response.json({ message: "Category deleted successfully" });
   } catch (error) {
     return Response.json(
-      { message: "Error al eliminar la categoria", error: error.message },
+      { message: "Error deleting the category", error: error.message },
       { status: 500 }
     );
   }

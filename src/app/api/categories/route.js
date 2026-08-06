@@ -11,7 +11,7 @@ export async function GET() {
     return Response.json(categories);
   } catch (error) {
     return Response.json(
-      { message: "Error al obtener las categorias", error: error.message },
+      { message: "Error when obtaining categories", error: error.message },
       { status: 500 }
     );
   }
@@ -30,7 +30,7 @@ export async function POST(request) {
     return Response.json(category, { status: 201 });
   } catch (error) {
     return Response.json(
-      { message: "Error al crear la categoria", error: error.message },
+      { message: "Error when creating category", error: error.message },
       { status: 400 }
     );
   }

@@ -7,7 +7,7 @@ import Product from "@/models/Product";
 export const dynamic = "force-dynamic";
 
 function invalidIdResponse() {
-  return Response.json({ message: "ID de producto invalido" }, { status: 400 });
+  return Response.json({ message: "Invalid product ID" }, { status: 400 });
 }
 
 export async function GET(_request, { params }) {
@@ -21,13 +21,13 @@ export async function GET(_request, { params }) {
     const product = await getProductById(id);
 
     if (!product) {
-      return Response.json({ message: "Producto no encontrado" }, { status: 404 });
+      return Response.json({ message: "Product not found" }, { status: 404 });
     }
 
     return Response.json(product);
   } catch (error) {
     return Response.json(
-      { message: "Error al obtener el producto", error: error.message },
+      { message: "Error fetching the product", error: error.message },
       { status: 500 }
     );
   }
@@ -61,13 +61,13 @@ export async function PUT(request, { params }) {
     );
 
     if (!product) {
-      return Response.json({ message: "Producto no encontrado" }, { status: 404 });
+      return Response.json({ message: "Product not found" }, { status: 404 });
     }
 
     return Response.json(product);
   } catch (error) {
     return Response.json(
-      { message: "Error al actualizar el producto", error: error.message },
+      { message: "Error updating the product", error: error.message },
       { status: 400 }
     );
   }
@@ -85,13 +85,13 @@ export async function DELETE(_request, { params }) {
     const product = await Product.findByIdAndDelete(id);
 
     if (!product) {
-      return Response.json({ message: "Producto no encontrado" }, { status: 404 });
+      return Response.json({ message: "Product not found" }, { status: 404 });
     }
 
-    return Response.json({ message: "Producto eliminado correctamente" });
+    return Response.json({ message: "Product deleted successfully" });
   } catch (error) {
     return Response.json(
-      { message: "Error al eliminar el producto", error: error.message },
+      { message: "Error deleting the product", error: error.message },
       { status: 500 }
     );
   }
