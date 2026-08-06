@@ -45,6 +45,132 @@ export async function POST() {
       { $addToSet: { categories: createdMain["Bowls"] } }
     );
 
+    const drinksProducts = [
+      {
+        name: "Matcha Iced Tea",
+        description: "Té verde matcha orgánico batido en frío con un toque de limón fresco y miel.",
+        price: 3.99,
+        stock: 50,
+        image: "/images/drinks/matcha-iced-tea.png",
+      },
+      {
+        name: "Sparkling Yuzu Lemonade",
+        description: "Refrescante limonada artesanal infusionada con cítrico japonés Yuzu y burbujas finas.",
+        price: 4.5,
+        stock: 40,
+        image: "/images/drinks/sparkling-yuzu-lemonade.png",
+      },
+      {
+        name: "Lychee Dragonfruit Boba",
+        description: "Té refrescante de fruta del dragón y lichi con perlas de tapioca y leche de coco.",
+        price: 5.5,
+        stock: 35,
+        image: "/images/drinks/lychee-dragonfruit-boba.png",
+      },
+      {
+        name: "Hibiscus Ginger Infusion",
+        description: "Soda artesanal de flor de hibisco (jamaica) con jengibre picante fresco y lima.",
+        price: 4.25,
+        stock: 45,
+        image: "/images/drinks/hibiscus-ginger-infusion.png",
+      },
+      {
+        name: "Cold Brew Kombucha Ginger",
+        description: "Kombucha artesanal probiótica fermentada con jengibre fresco y té negro.",
+        price: 4.99,
+        stock: 30,
+        image: "/images/drinks/cold-brew-kombucha-ginger.png",
+      },
+      {
+        name: "Japanese Peach Sparkler",
+        description: "Bebida efervescente dulce con pulpa natural de durazno blanco japonés Momo.",
+        price: 4.5,
+        stock: 40,
+        image: "/images/drinks/japanese-peach-sparkler.png",
+      },
+    ];
+
+    for (const productData of drinksProducts) {
+      await Product.findOneAndUpdate(
+        { name: productData.name },
+        {
+          $set: {
+            ...productData,
+            type: "regular",
+            categories: [createdMain["Drinks"]],
+          },
+        },
+        {
+          upsert: true,
+          new: true,
+          runValidators: true,
+        }
+      );
+    }
+
+    const dessertsProducts = [
+      {
+        name: "Mochi Ice Cream Trio",
+        description: "Trío de mochi de arroz glutinoso relleno de helado sabor Matcha, Mango y Sésamo Negro.",
+        price: 5.99,
+        stock: 25,
+        image: "/images/desserts/mochi-ice-cream-trio.png",
+      },
+      {
+        name: "Matcha Uji Cheesecake",
+        description: "Cheesecake cremoso horneado e infusionado con té verde Matcha de grado ceremonial.",
+        price: 6.5,
+        stock: 20,
+        image: "/images/desserts/matcha-uji-cheesecake.png",
+      },
+      {
+        name: "Mango Coconut Tapioca",
+        description: "Pudding de perlas de tapioca en suave leche de coco con cubos de mango fresco.",
+        price: 5.25,
+        stock: 30,
+        image: "/images/desserts/mango-coconut-tapioca.png",
+      },
+      {
+        name: "Taiyaki Soft Serve",
+        description: "Waffle japonés crocante relleno de Nutella, coronado con helado suave mixto.",
+        price: 6.99,
+        stock: 15,
+        image: "/images/desserts/taiyaki-soft-serve.png",
+      },
+      {
+        name: "Yuzu Meringue Tartlet",
+        description: "Tarta artesanal con curd de Yuzu japonés y merengue italiano ligeramente tostado.",
+        price: 5.75,
+        stock: 18,
+        image: "/images/desserts/yuzu-meringue-tartlet.png",
+      },
+      {
+        name: "Black Sesame Panna Cotta",
+        description: "Panna cotta cremosa de sésamo negro tostado servida con coulis de maracuyá.",
+        price: 5.5,
+        stock: 22,
+        image: "/images/desserts/black-sesame-panna-cotta.png",
+      },
+    ];
+
+    for (const productData of dessertsProducts) {
+      await Product.findOneAndUpdate(
+        { name: productData.name },
+        {
+          $set: {
+            ...productData,
+            type: "regular",
+            categories: [createdMain["Desserts"]],
+          },
+        },
+        {
+          upsert: true,
+          new: true,
+          runValidators: true,
+        }
+      );
+    }
+
     // 4. Crear "Build Your Own Bowl" si no existe
     const existingBYO = await Product.findOne({ type: "custom" });
     let byoResult = "already exists";
@@ -123,6 +249,8 @@ export async function POST() {
     return NextResponse.json({
       ok: true,
       mainCategories: createdMain,
+      drinksProducts: drinksProducts.map((product) => product.name),
+      dessertsProducts: dessertsProducts.map((product) => product.name),
       buildYourOwnBowl: byoResult,
     });
   } catch (error) {

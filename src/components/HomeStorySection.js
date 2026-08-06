@@ -38,7 +38,7 @@ export default function HomeStorySection() {
             </div>
           </div>
 
-          <div className="rounded-3xl border border-sand bg-cream p-10 text-center">
+          <div className="rounded-3xl border border-sand p-10 text-center">
             <Image
               src="/images/logo/icon.svg"
               alt=""

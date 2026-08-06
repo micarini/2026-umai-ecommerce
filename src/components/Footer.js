@@ -29,7 +29,7 @@ export default function Footer() {
         <div className="flex flex-col gap-10 sm:flex-row sm:justify-between">
           <div className="max-w-xs">
             <Link className="flex items-center" href="/">
-              <HonuLogo variant="onDark" height={64} />
+              <HonuLogo variant="footer" height={64} />
             </Link>
             <p className="mt-4 text-sm text-white/60">
               Fresh bowls, your way — wild-caught, organic, and served in compostable bowls.

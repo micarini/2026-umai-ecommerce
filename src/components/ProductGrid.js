@@ -13,7 +13,7 @@ export default function ProductGrid({ products = [] }) {
   if (products.length === 0) {
     return (
       <p className="rounded-2xl border border-dashed border-sand p-8 text-center text-teal/40">
-        No bowls loaded yet.
+        No products loaded yet.
       </p>
     );
   }

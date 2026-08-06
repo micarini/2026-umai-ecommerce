@@ -18,6 +18,7 @@ export default function UserPage() {
   const { activeUser } = useApp();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const firstName = activeUser?.name?.split(" ")[0] || "there";
 
   useEffect(() => {
     if (!activeUser) {
@@ -49,6 +50,7 @@ export default function UserPage() {
     <main className="min-h-screen bg-cream text-teal">
       <div className="mx-auto max-w-4xl px-6 py-10">
         <h1 className="text-3xl font-extrabold text-teal">My Account</h1>
+        <p className="mt-2 text-sm text-teal/60">Hi, {firstName}. Here you can review your profile and orders.</p>
 
         <div className="mt-6 rounded-3xl border border-sand bg-white/40 p-6">
           <p className="text-xs font-bold uppercase tracking-wide text-teal/50">Name</p>

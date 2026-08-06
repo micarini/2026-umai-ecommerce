@@ -20,7 +20,7 @@ export default async function Home() {
     <main className="min-h-screen bg-cream text-teal">
 
       {/* ── Hero full-width ── */}
-      <section className="relative h-[75vh] w-full overflow-hidden">
+      <section className="relative h-[70vh] min-h-140 w-full overflow-hidden sm:h-[75vh]">
         <Image
           src="/images/products/hero-background.png"
           alt="Fresh poke bowls at Honu Bowls"
@@ -34,14 +34,14 @@ export default async function Home() {
         <div className="absolute inset-0 bg-linear-to-t from-black/65 via-black/20 to-transparent" />
 
         {/* Texto superpuesto, bottom-left como Sweetgreen */}
-        <div className="absolute bottom-0 left-0 px-8 pb-10 lg:px-16 lg:pb-14">
+        <div className="absolute bottom-0 left-0 px-6 pb-8 sm:px-8 sm:pb-10 lg:px-16 lg:pb-14">
           <p className="text-xs font-bold uppercase tracking-[0.25em] text-white/70">
             Fresh · Local · Customizable
           </p>
-          <h1 className="mt-3 max-w-xl text-5xl font-extrabold leading-tight text-white lg:text-7xl">
+          <h1 className="mt-3 max-w-xl text-4xl font-extrabold leading-tight text-white sm:text-5xl lg:text-7xl">
             Fresh bowls,<br />your way.
           </h1>
-          <div className="mt-6 flex flex-wrap gap-3">
+          <div className="mt-5 flex flex-wrap gap-3 sm:mt-6">
             <a
               href="#menu"
               className="rounded-full bg-salmon px-7 py-3 text-sm font-bold text-white hover:bg-salmon-dark"
