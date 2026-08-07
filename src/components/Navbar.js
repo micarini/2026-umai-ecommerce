@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { FaBars, FaTimes } from "react-icons/fa";
+import { FaBars, FaShoppingCart, FaTimes } from "react-icons/fa";
 
 import { useApp } from "@/context/AppContext";
 import HonuLogo from "@/components/HonuLogo";
@@ -87,20 +87,31 @@ export default function Navbar() {
           )}
         </div>
 
-        {/* Mobile hamburger */}
-        <button
-          type="button"
-          onClick={() => setMobileOpen((v) => !v)}
-          className="relative rounded-lg p-2 text-teal hover:bg-sand md:hidden"
-          aria-label="Toggle menu"
-        >
-          {mobileOpen ? <FaTimes className="h-5 w-5" /> : <FaBars className="h-5 w-5" />}
-          {!mobileOpen && cartCount > 0 && (
-            <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-salmon text-[10px] font-bold text-white">
-              {cartCount > 9 ? "9+" : cartCount}
-            </span>
-          )}
-        </button>
+        {/* Mobile: cart + hamburger */}
+        <div className="flex items-center gap-1 md:hidden">
+          <Link
+            href="/cart"
+            onClick={closeMobile}
+            aria-label="Cart"
+            className="relative rounded-lg p-2 text-teal hover:bg-sand"
+          >
+            <FaShoppingCart className="h-5 w-5" />
+            {cartCount > 0 && (
+              <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-salmon text-[10px] font-bold text-white">
+                {cartCount > 9 ? "9+" : cartCount}
+              </span>
+            )}
+          </Link>
+
+          <button
+            type="button"
+            onClick={() => setMobileOpen((v) => !v)}
+            className="rounded-lg p-2 text-teal hover:bg-sand"
+            aria-label="Toggle menu"
+          >
+            {mobileOpen ? <FaTimes className="h-5 w-5" /> : <FaBars className="h-5 w-5" />}
+          </button>
+        </div>
       </nav>
 
       {/* Mobile panel */}
@@ -116,18 +127,6 @@ export default function Navbar() {
               {link.label}
             </Link>
           ))}
-          <Link
-            className="flex items-center justify-between rounded-lg px-3 py-2.5 text-sm font-medium text-teal/70 hover:bg-sand hover:text-teal"
-            href="/cart"
-            onClick={closeMobile}
-          >
-            Cart
-            {cartCount > 0 && (
-              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-salmon text-xs font-bold text-white">
-                {cartCount > 9 ? "9+" : cartCount}
-              </span>
-            )}
-          </Link>
 
           <div className="mt-2 border-t border-sand pt-2">
             {activeUser ? (

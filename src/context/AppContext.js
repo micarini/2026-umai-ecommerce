@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 const AppContext = createContext(null);
 
@@ -9,7 +9,18 @@ export function AppProvider({ children }) {
   const [favorites, setFavorites] = useState([]);
   const [activeUser, setActiveUser] = useState(null);
 
-  // --- Cart ---
+  // Al montar, restaurar la sesión desde la cookie (si sigue vigente) y
+  // traer los favoritos del usuario. Sin esto, cualquier recarga de página
+  // (o volver al otro día) deja al usuario como invitado en el cliente aunque
+  // la cookie de sesión siga siendo válida.
+  useEffect(() => {
+    fetch("/api/users/me")
+      .then((res) => (res.ok ? res.json() : { user: null }))
+      .then(({ user }) => {
+        if (user) login(user);
+      })
+      .catch(() => {});
+  }, []);
 
   function addToCart(item) {
     setCart((prev) => {
@@ -64,8 +75,6 @@ export function AppProvider({ children }) {
     setCart([]);
   }
 
-  // --- Favorites ---
-
   function addToFavorites(productId) {
     setFavorites((prev) => (prev.includes(productId) ? prev : [...prev, productId]));
     if (activeUser) {
@@ -85,8 +94,6 @@ export function AppProvider({ children }) {
       });
     }
   }
-
-  // --- User ---
 
   async function login(userData) {
     setActiveUser(userData);
